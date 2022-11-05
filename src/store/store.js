@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { initialsReducer } from './action';
+import { initialReducer } from './action';
 
 export default configureStore({
-  reducer: { initials: initialsReducer },
+  reducer: { initial: initialReducer },
 });
