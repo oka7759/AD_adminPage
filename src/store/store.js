@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { initialReducer } from './action';
+import { bucketsReducer, trandsReducer, brandReducer } from './action';
 
 export default configureStore({
-  reducer: { initial: initialReducer },
+  reducer: {
+    buckets: bucketsReducer,
+    trands: trandsReducer,
+    brand: brandReducer,
+  },
 });
