@@ -1,39 +1,41 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { useSelector } from 'react-redux';
 
-const Chart = () => {
-  const buckets = useSelector(state => state.buckets.value);
+const Chart = ({ newResult, selectors }) => {
   const dateList = [];
-  const roasList = [];
-  const clickList = [];
+  const ListA = [];
+  const ListB = [];
+
+  const { a, b } = selectors;
 
   const resultDate = () => {
-    for (let i = 0; i < buckets.length; i++) {
-      dateList.push(buckets[i].date);
-      clickList.push({ x: buckets[i].date, y: buckets[i].click });
-      roasList.push({ x: buckets[i].date, y: buckets[i].roas });
+    for (let i = 0; i < newResult.length; i++) {
+      dateList.push(newResult[i].date);
+      ListA.push({ x: newResult[i].date, y: newResult[i][a] });
+      ListB.push({ x: newResult[i].date, y: newResult[i][b] });
     }
-    return [clickList, roasList, dateList];
+    return [ListB, ListA, dateList];
   };
   resultDate();
+
+  console.log(newResult);
 
   const data = {
     labels: dateList,
     datasets: [
       {
         type: 'line',
-        label: 'Roas',
+        label: a,
         borderColor: '#4FADF7',
-        borderWidth: 2,
-        data: roasList,
+        borderWidth: 4,
+        data: ListA,
       },
       {
         type: 'line',
-        label: 'click',
+        label: b,
         borderColor: '#85DA47',
-        borderWidth: 2,
-        data: clickList,
+        borderWidth: 4,
+        data: ListB,
       },
     ],
   };

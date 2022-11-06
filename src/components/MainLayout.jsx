@@ -6,7 +6,6 @@ import {
 import { Layout, Menu, Avatar } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Calendar from '../pages/Main/components/Calendar';
 import Router from '../Router';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -45,6 +44,9 @@ const MainLayout = () => {
           defaultSelectedKeys={['1']}
           mode="inline"
           items={items}
+          onClick={({ key }) => {
+            console.log(key);
+          }}
         />
       </Sider>
       <Layout className="site-layout">
@@ -66,14 +68,9 @@ const MainLayout = () => {
         </Header>
         <Content
           style={{
-            margin: '0 16px 16px',
+            margin: '16px',
           }}
         >
-          <PageTitle>
-            <h1>대시보드</h1>
-
-            <Calendar />
-          </PageTitle>
           <div
             className="site-layout-background"
             style={{

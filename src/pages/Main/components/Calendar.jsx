@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'moment/locale/ko';
 import { ko } from 'date-fns/locale';
+import { useSelector } from 'react-redux';
 
-const Calendar = () => {
-  const today = new Date();
-  const [days, setStart] = useState({ start: '', end: '' });
+const Calendar = ({ setNewResult, setRangs }) => {
+  const [days, setStart] = useState({
+    start: new Date('2022-02-01'),
+    end: new Date('2022-02-07'),
+  });
   const { start, end } = days;
 
-  console.log(days);
+  const buckets = useSelector(state => state.buckets.value);
+  const Result = [];
+  const ckeckdate = () => {
+    buckets.map(els => {
+      const selectDate = new Date(els.date);
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      if (startDate <= selectDate && selectDate <= endDate) {
+        Result.push(els);
+      }
+      return Result;
+    });
+  };
+
+  ckeckdate();
+
+  useEffect(() => {
+    setNewResult([...Result]);
+    end &&
+      start &&
+      setRangs(
+        Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24))
+      );
+  }, [days]);
 
   return (
     <Datepick>
@@ -18,7 +44,6 @@ const Calendar = () => {
         selectsRange={true}
         startDate={start}
         endDate={end}
-        minDate={today}
         locale={ko}
         disabledKeyboardNavigation
         onChange={update => {
