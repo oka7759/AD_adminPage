@@ -18,8 +18,6 @@ const Chart = ({ newResult, selectors }) => {
   };
   resultDate();
 
-  console.log(newResult);
-
   const data = {
     labels: dateList,
     datasets: [

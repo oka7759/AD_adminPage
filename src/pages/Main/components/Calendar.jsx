@@ -1,28 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'moment/locale/ko';
 import { ko } from 'date-fns/locale';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDate, checkRangs, getPastDate } from '../../../store/action';
+import moment from 'moment/moment';
+import { result } from 'lodash';
 
-const Calendar = ({ setNewResult, setRangs }) => {
-  const [days, setStart] = useState({
-    start: new Date('2022-02-01'),
-    end: new Date('2022-02-07'),
-  });
-  const { start, end } = days;
-
+const Calendar = ({ setNewResult }) => {
+  const days = useSelector(state => state.date.value);
   const buckets = useSelector(state => state.buckets.value);
+  const rangs = useSelector(state => state.rangs.value);
+
+  const { start, end } = days;
+  const dispatch = useDispatch();
+
   const Result = [];
+  const pastResult = [];
   const ckeckdate = () => {
     buckets.map(els => {
       const selectDate = new Date(els.date);
       const startDate = new Date(start);
       const endDate = new Date(end);
+      const pastStartDate = new Date(moment(start).subtract(rangs, 'days'));
+      const pastEndDate = new Date(moment(end).subtract(rangs, 'days'));
+
       if (startDate <= selectDate && selectDate <= endDate) {
         Result.push(els);
       }
-      return Result;
+
+      if (pastStartDate <= selectDate && selectDate <= pastEndDate) {
+        pastResult.push(els);
+      }
+      return [Result, pastResult];
     });
   };
 
@@ -32,9 +43,12 @@ const Calendar = ({ setNewResult, setRangs }) => {
     setNewResult([...Result]);
     end &&
       start &&
-      setRangs(
-        Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24))
+      dispatch(
+        checkRangs(
+          Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24))
+        )
       );
+    pastResult && dispatch(getPastDate(pastResult));
   }, [days]);
 
   return (
@@ -47,7 +61,7 @@ const Calendar = ({ setNewResult, setRangs }) => {
         locale={ko}
         disabledKeyboardNavigation
         onChange={update => {
-          setStart({ start: update[0], end: update[1] });
+          dispatch(getDate({ start: update[0], end: update[1] }));
         }}
         isClearable={true}
       />

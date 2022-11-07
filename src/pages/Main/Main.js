@@ -4,7 +4,7 @@ import Card from './components/Card';
 import Chart from './components/Chart';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { getTrendSet, getChannelSet } from '../../api/api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getBuckets, getTrands } from '../../store/action';
 import Calendar from './components/Calendar';
 import { useState } from 'react';
@@ -12,8 +12,8 @@ import Selecter from './components/Selecter';
 
 const Main = () => {
   const [newResult, setNewResult] = useState([]);
-  const [selectors, setSelectores] = useState({ a: 'roas', b: 'cost' });
-  const [rangs, setRangs] = useState(7);
+  const selectors = useSelector(state => state.selecter.value);
+
   const dispatch = useDispatch();
   const fechDate = () => {
     getTrendSet().then(({ data }) => {
@@ -33,7 +33,7 @@ const Main = () => {
       <PageTitle>
         <h1>대시보드</h1>
 
-        <Calendar setNewResult={setNewResult} setRangs={setRangs} />
+        <Calendar setNewResult={setNewResult} />
       </PageTitle>
       <MainContainer>
         <DashboardBox>
@@ -42,16 +42,14 @@ const Main = () => {
               <Card
                 key={els + idx}
                 title={els}
-                persent="697%"
                 subPersent="22%"
                 newResult={newResult}
-                rangs={rangs}
               />
             );
           })}
         </DashboardBox>
         <GraphBox>
-          <Selecter setSelectores={setSelectores} selectors={selectors} />
+          <Selecter />
           <Chart newResult={newResult} selectors={selectors} />
         </GraphBox>
       </MainContainer>

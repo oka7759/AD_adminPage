@@ -21,6 +21,9 @@ const Adlist = () => {
   }, [adList, adlists]);
   return (
     <AdListContainer>
+      <PageTitle>
+        <h1>광고 관리</h1>
+      </PageTitle>
       <AdListheader />
       <Selecter />
       <AdListBox>
@@ -76,4 +79,14 @@ const AdListBox = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+`;
+const PageTitle = styled.div`
+  width: 100%;
+  position: relative;
+  h1 {
+    font-size: 20px;
+    line-height: 30px;
+    padding: 10px 0;
+    font-weight: 700;
+  }
 `;

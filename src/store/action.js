@@ -25,35 +25,11 @@ export const trands = createSlice({
 export const { getTrands } = trands.actions;
 export const trandsReducer = trands.reducer;
 
-export const brand = createSlice({
-  name: 'brand',
-  initialState: {
-    value: {},
-  },
-  reducers: {
-    getBrand: (state, action) => {
-      state.value = { ...action.payload };
-    },
-  },
-});
-export const { getBrand } = brand.actions;
-export const brandReducer = brand.reducer;
-
-export const adList = createSlice({
-  name: 'adList',
-  initialState: { value: [] },
-  reducers: {
-    getAdList: (state, action) => {
-      state.value = [...action.payload];
-    },
-  },
-});
-export const { getAdList } = adList.actions;
-export const adListReducer = adList.reducer;
-
 export const date = createSlice({
   name: 'date',
-  initialState: { value: { start: null, end: null } },
+  initialState: {
+    value: { start: new Date('2022-02-01'), end: new Date('2022-02-07') },
+  },
   reducers: {
     getDate: (state, action) => {
       state.value = action.payload;
@@ -62,20 +38,6 @@ export const date = createSlice({
 });
 export const { getDate } = date.actions;
 export const dateReducer = date.reducer;
-
-export const newBrand = createSlice({
-  name: 'newBrand',
-  initialState: {
-    value: [],
-  },
-  reducers: {
-    getNewBrand: (state, action) => {
-      state.value = action.payload;
-    },
-  },
-});
-export const { getNewBrand } = newBrand.actions;
-export const newBrandReducer = newBrand.reducer;
 
 export const adListSelect = createSlice({
   name: 'adListSelect',
@@ -117,3 +79,43 @@ export const idx = createSlice({
 });
 export const { isIdx } = idx.actions;
 export const idxReducer = idx.reducer;
+
+export const selecter = createSlice({
+  name: 'selecter',
+  initialState: {
+    value: { a: 'roas', b: 'cost' },
+  },
+  reducers: {
+    checkSelect: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+});
+export const { checkSelect } = selecter.actions;
+export const selecterReducer = selecter.reducer;
+
+export const rangs = createSlice({
+  name: 'rangs',
+  initialState: {
+    value: 7,
+  },
+  reducers: {
+    checkRangs: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+});
+export const { checkRangs } = rangs.actions;
+export const rangsReducer = rangs.reducer;
+
+export const pastDate = createSlice({
+  name: 'pastDate',
+  initialState: { value: [] },
+  reducers: {
+    getPastDate: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+});
+export const { getPastDate } = pastDate.actions;
+export const pastDateReducer = pastDate.reducer;

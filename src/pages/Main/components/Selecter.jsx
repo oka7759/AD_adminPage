@@ -1,13 +1,19 @@
 import React from 'react';
 import { Select } from 'antd';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSelect } from '../../../store/action';
 
-const Selecter = ({ setSelectores, selectors }) => {
+const Selecter = () => {
+  const dispatch = useDispatch();
+
+  const selectors = useSelector(state => state.selecter.value);
+
   const handleChangeA = value => {
-    setSelectores({ ...selectors, a: value });
+    dispatch(checkSelect({ ...selectors, a: value }));
   };
   const handleChangeB = value => {
-    setSelectores({ ...selectors, b: value });
+    dispatch(checkSelect({ ...selectors, b: value }));
   };
 
   return (
